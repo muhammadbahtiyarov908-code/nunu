@@ -4,438 +4,377 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interaktiv test | HA yoki YO‘Q</title>
-
+<title>🎰 Emoji Spin</title>
 <style>
+:root {
+  --pink:#ff2d95; --purple:#8b5cf6; --cyan:#00e5ff;
+  --green:#39ff88; --gold:#ffd700; --bg:#100824;
+}
 *{box-sizing:border-box}
 body{
- margin:0;padding:20px;font-family:Arial,sans-serif;color:#f1f5f9;
- background:linear-gradient(135deg,#0f172a,#1e1b4b,#312e81);
- min-height:100vh
+  margin:0;min-height:100vh;padding:25px 15px;
+  display:flex;justify-content:center;align-items:center;
+  font-family:Arial,sans-serif;color:white;overflow-x:hidden;
+  background:
+    radial-gradient(ellipse at 15% 15%,#8b5cf650,transparent 40%),
+    radial-gradient(ellipse at 85% 80%,#ff2d9530,transparent 40%),
+    var(--bg);
 }
-header{text-align:center;margin:0 auto 24px}
-header h1{margin:8px 0;font-size:28px}
-header p{color:#cbd5e1;font-size:14px}
-.layout{
- max-width:1200px;margin:auto;
- display:grid;grid-template-columns:260px minmax(0,1fr);
- gap:20px;align-items:start
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background-image:radial-gradient(#ffffff50 1px,transparent 1px);
+  background-size:37px 37px;opacity:.2;
+  animation:stars 25s linear infinite;
 }
-.card{
- background:#ffffff0d;border:1px solid #ffffff20;
- border-radius:18px;padding:18px;margin-bottom:16px;
- box-shadow:0 12px 30px #0002
+@keyframes stars{to{transform:translate(37px,37px)}}
+.app{width:100%;max-width:700px;position:relative}
+header{text-align:center;margin-bottom:25px}
+.logo{
+  font-size:clamp(35px,8vw,65px);font-weight:1000;
+  letter-spacing:2px;margin:10px 0;
+  background:linear-gradient(90deg,#fff,var(--pink),var(--cyan),#fff);
+  background-size:250%;color:transparent;
+  background-clip:text;-webkit-background-clip:text;
+  filter:drop-shadow(0 0 20px #bd66ff65);
+  animation:logoGlow 4s linear infinite;
 }
-h2{font-size:19px;margin:0 0 15px}
-h3{font-size:15px;margin:18px 0 12px}
-.muted{font-size:13px;color:#cbd5e1;line-height:1.5}
-
-/* CHAP TOMON */
-#randomResult{
- min-height:85px;display:flex;align-items:center;justify-content:center;
- font-size:35px;font-weight:900;border:2px solid #64748b;
- border-radius:14px;background:#0f172a88;margin:12px 0;
- transition:.15s
+@keyframes logoGlow{to{background-position:250% center}}
+.subtitle{color:#c9bce4;font-size:14px;line-height:1.6}
+.badge{
+  display:inline-block;padding:9px 15px;border:1px solid #ff2d9560;
+  border-radius:30px;background:#ff2d9515;color:#ffacd7;
+  font-size:11px;font-weight:bold;letter-spacing:2px;
 }
-#randomResult.ha{color:#4ade80;border-color:#22c55e;background:#14532d55}
-#randomResult.yoq{color:#f87171;border-color:#ef4444;background:#7f1d1d55}
-button{font-family:inherit}
-.btn{
- border:0;border-radius:10px;padding:12px 14px;
- background:#4f46e5;color:white;font-weight:bold;
- cursor:pointer;transition:.2s
+.machine{
+  position:relative;padding:25px;
+  border-radius:30px;
+  background:linear-gradient(145deg,#ffffff18,#ffffff04,#8b5cf625);
+  border:1px solid #ffffff30;
+  box-shadow:0 25px 80px #0008,0 0 35px #8b5cf630;
+  overflow:hidden;
 }
-.btn:hover:not(:disabled){filter:brightness(1.15)}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-#randomBtn{width:100%;font-size:13px;padding:13px 6px}
-.numbers{
- display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px
+.machine:before{
+  content:"";position:absolute;inset:0;padding:2px;border-radius:30px;
+  background:linear-gradient(135deg,var(--pink),var(--purple),var(--cyan),var(--green),var(--pink));
+  background-size:300% 300%;animation:borderMove 6s linear infinite;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
 }
-.num{
- padding:10px 0;min-width:0;border:1px solid #475569;
- background:#1e293b;color:white;border-radius:8px;
- font-weight:bold;cursor:pointer
+@keyframes borderMove{to{background-position:300% 0}}
+.lights{display:flex;justify-content:center;gap:12px;margin-bottom:24px}
+.light{width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 15px var(--gold);animation:blink .7s infinite alternate}
+.light:nth-child(even){background:var(--pink);box-shadow:0 0 15px var(--pink);animation-delay:.3s}
+@keyframes blink{to{opacity:.3;transform:scale(.7)}}
+.label{display:flex;justify-content:space-between;gap:10px;font-size:11px;font-weight:bold;letter-spacing:1px;color:#c9bce4;margin-bottom:14px}
+.slot{
+  padding:12px;border-radius:22px;
+  background:linear-gradient(145deg,#090414,#281348,#0a0617);
+  box-shadow:inset 0 0 25px #0009,0 0 30px #8b5cf625;
 }
-.num.active{outline:2px solid #a5b4fc;background:#4338ca}
-.num.correct{background:#166534;border-color:#22c55e}
-.num.wrong{background:#991b1b;border-color:#ef4444}
-.legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:11px;color:#cbd5e1}
-.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
-.dot.green{background:#22c55e}.dot.red{background:#ef4444}.dot.blue{background:#818cf8}
-
-/* O‘NG TOMON */
-.progress-info{
- display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;
- font-size:13px;color:#cbd5e1;margin-bottom:10px
+.reels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.reel{
+  height:clamp(100px,22vw,150px);display:grid;place-items:center;
+  border:1px solid #bda9ff55;border-radius:17px;
+  background:linear-gradient(145deg,#382057,#160d2b);
+  box-shadow:inset 0 0 20px #0007,inset 0 1px 0 #ffffff20;
+  font-size:clamp(43px,10vw,76px);overflow:hidden;
+  transition:.3s;
 }
-.progress{height:6px;background:#334155;border-radius:9px;overflow:hidden;margin-bottom:20px}
-#progressBar{height:100%;width:0;background:#818cf8;transition:.25s}
-#questionText{font-size:21px;line-height:1.5;margin:12px 0 20px}
-.option{
- display:flex;align-items:flex-start;gap:12px;width:100%;
- text-align:left;padding:14px;margin:10px 0;border-radius:12px;
- border:1px solid #475569;background:#1e293b;color:white;
- cursor:pointer;font-size:15px;line-height:1.5;transition:.15s
+.reel.spinning .emoji{animation:spinEmoji .09s linear infinite}
+@keyframes spinEmoji{
+  0%{transform:translateY(-22px);filter:blur(2px)}
+  100%{transform:translateY(22px);filter:blur(2px)}
 }
-.option:hover:not(:disabled){background:#334155;border-color:#818cf8}
-.option.selected{border-color:#818cf8}
-.option.right{background:#14532d;border-color:#22c55e}
-.option.incorrect{background:#7f1d1d;border-color:#ef4444}
-.option:disabled{cursor:default}
-.letter{
- flex-shrink:0;display:grid;place-items:center;
- width:29px;height:29px;border-radius:8px;
- background:#334155;font-weight:bold
+.reel.winner{
+  border-color:var(--green);
+  box-shadow:inset 0 0 30px #39ff8840,0 0 30px #39ff8880;
+  animation:winning .5s infinite alternate;
 }
-
-/* DARHOL CHIQADIGAN JAVOB */
-#feedback{
- display:none;padding:14px;border-radius:12px;
- margin-top:16px;font-size:14px;line-height:1.6
+@keyframes winning{to{transform:scale(1.035);filter:brightness(1.3)}}
+.reel.loser{animation:shake .25s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.actions{text-align:center;margin-top:24px}
+button{font-family:inherit;cursor:pointer;color:white;font-weight:900;border:0;transition:transform .2s,filter .2s}
+.start{
+  position:relative;overflow:hidden;width:min(100%,390px);padding:19px;
+  font-size:16px;border-radius:17px;
+  background:linear-gradient(100deg,var(--pink),var(--purple),#5946ed);
+  box-shadow:0 8px 0 #42218a,0 15px 35px #a855f755;
+  animation:pulse 2s infinite;
 }
-#feedback.show{display:block}
-#feedback.good{background:#14532d66;border:1px solid #22c55e;color:#bbf7d0}
-#feedback.bad{background:#7f1d1d66;border:1px solid #ef4444;color:#fecaca}
-#feedback strong{display:block;font-size:16px;margin-bottom:4px}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}
-.secondary{background:#334155}
-.green{background:#15803d}
-#resultSummary{margin-top:15px;font-weight:bold;line-height:1.7}
-
-/* JAVOBLAR SLAYDLARI */
-#answerPanel{display:none;margin-top:18px}
-.key-slides{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
-.key-slide{
- border:1px solid #64748b;border-radius:9px;
- padding:10px 13px;background:#1e293b;color:white;cursor:pointer
+@keyframes pulse{50%{filter:brightness(1.2);box-shadow:0 8px 0 #42218a,0 15px 45px #c026d380}}
+button:hover{filter:brightness(1.15);transform:translateY(-2px)}
+button:active{transform:translateY(2px)}
+button:disabled{opacity:.65;cursor:wait;animation:none}
+.status{min-height:65px;margin-top:22px;display:flex;flex-direction:column;justify-content:center;gap:7px}
+.status-title{font-size:clamp(17px,4vw,23px);font-weight:900}
+.status-sub{font-size:12px;color:#b9acd5;line-height:1.5}
+.status.win .status-title{color:var(--green);text-shadow:0 0 20px #39ff8870;animation:pop .5s}
+.status.lose .status-title{color:#ffacd7}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+.gift-btn{
+  display:none;width:min(100%,390px);padding:18px;margin-top:14px;
+  font-size:15px;border-radius:16px;
+  background:linear-gradient(100deg,#ffe35b,#ff9800,#ff3989);
+  box-shadow:0 7px 0 #984311,0 12px 35px #ffb21f45;
 }
-.key-slide.active{background:#4f46e5}
-.key-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
-.key-item{
- text-align:center;padding:12px 5px;border-radius:9px;
- background:#1e293b;border:1px solid #334155;font-size:13px
+.gift-btn.show{display:inline-block;animation:pop .6s}
+.stats{display:flex;justify-content:center;flex-wrap:wrap;gap:9px;margin-top:22px}
+.stat{padding:10px 14px;border-radius:12px;background:#ffffff0b;border:1px solid #ffffff18;color:#c7b9df;font-size:12px}
+.stat b{color:white;margin-left:5px}
+.note{text-align:center;font-size:11px;color:#85759f;line-height:1.6;margin:20px auto 0}
+.footer{text-align:center;margin-top:22px;font-size:10px;color:#68597f;letter-spacing:2px}
+.backdrop{
+  position:fixed;inset:0;z-index:10;padding:18px;
+  display:flex;align-items:center;justify-content:center;
+  background:#070311d9;backdrop-filter:blur(12px);
+  opacity:0;visibility:hidden;transition:.35s;
 }
-.key-item strong{display:block;color:#86efac;font-size:20px;margin-top:5px}
-
-@media(max-width:750px){
- body{padding:12px}
- .layout{grid-template-columns:1fr}
- .left{display:grid;grid-template-columns:1fr;gap:0}
- header h1{font-size:23px}
- #questionText{font-size:18px}
- .key-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+.backdrop.open{opacity:1;visibility:visible}
+.modal{
+  width:min(100%,470px);max-height:90vh;overflow:auto;
+  position:relative;text-align:center;padding:28px;
+  border-radius:27px;border:1px solid #ffd70065;
+  background:radial-gradient(ellipse at top,#543321,#25113e 55%,#120a25);
+  box-shadow:0 0 70px #ffb81f35,0 25px 80px #000b;
+  transform:translateY(30px) scale(.85);
+  transition:transform .65s cubic-bezier(.16,1.25,.3,1);
+}
+.backdrop.open .modal{transform:translateY(0) scale(1)}
+.close{
+  position:absolute;right:12px;top:12px;width:35px;height:35px;
+  border-radius:11px;background:#ffffff15;border:1px solid #ffffff30;font-size:22px;
+}
+.kicker{font-size:11px;letter-spacing:3px;color:var(--gold);font-weight:bold}
+.modal h2{color:#ffe68b;font-size:30px;margin:14px 0 8px}
+.modal p{font-size:13px;color:#d0c2e9;line-height:1.5}
+.gift-frame{
+  min-height:190px;padding:12px;display:grid;place-items:center;
+  border-radius:20px;border:1px solid #ffd70035;
+  background:#ffd70008;position:relative;overflow:hidden;
+}
+.gift-frame:before{
+  content:"";position:absolute;width:180px;height:180px;border-radius:50%;
+  background:#ffd70035;filter:blur(45px);
+}
+#giftImage{
+  display:none;position:relative;z-index:1;max-width:100%;max-height:45vh;
+  object-fit:contain;border-radius:12px;
+  opacity:0;transform:scale(.7) translateY(20px);
+  transition:opacity 1.3s,transform 1.3s cubic-bezier(.16,1.3,.3,1);
+}
+.backdrop.revealed #giftImage{opacity:1;transform:scale(1) translateY(0)}
+#fallbackGift{position:relative;z-index:1;font-size:85px;animation:floatGift 2s infinite ease-in-out}
+@keyframes floatGift{50%{transform:translateY(-9px) rotate(4deg)}}
+.close-bottom{margin-top:20px;padding:13px 22px;border-radius:12px;background:#ffffff16;border:1px solid #ffffff2c}
+#confetti{position:fixed;inset:0;z-index:15;pointer-events:none;overflow:hidden}
+.confetti-piece{position:absolute;top:-20px;width:9px;height:14px;border-radius:2px;animation:fall var(--duration) linear forwards}
+@keyframes fall{to{transform:translate(var(--drift),110vh) rotate(850deg);opacity:.2}}
+@media(max-width:480px){
+ body{padding:18px 11px;align-items:flex-start}
+ .machine{padding:16px 12px;border-radius:24px}
+ .slot{padding:8px;border-radius:17px}
+ .reels{gap:7px}.reel{height:clamp(90px,27vw,120px);border-radius:12px}
+ .modal{padding:25px 18px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
 </style>
 </head>
-
 <body>
-<header>
- <h1>📚 INTERAKTIV TEST</h1>
- <p>30 ta savol • Darhol javob tekshirish • HA yoki YO‘Q</p>
-</header>
+<main class="app">
+  <header>
+    <div class="badge">✦ OMADINGNI SINAB KO‘R ✦</div>
+    <div class="logo">🎰 EMOJI SPIN</div>
+    <p class="subtitle">Uchta belgini aylantir, bir xil emojilarni top va sovg‘angni och!</p>
+  </header>
 
-<div class="layout">
+  <section class="machine">
+    <div class="lights">
+      <span class="light"></span><span class="light"></span><span class="light"></span>
+      <span class="light"></span><span class="light"></span><span class="light"></span>
+      <span class="light"></span><span class="light"></span><span class="light"></span>
+    </div>
+    <div class="label"><span>🟢 SPIN MACHINE</span><span>3 REELS · 4 SECONDS</span></div>
+    <div class="slot">
+      <div class="reels">
+        <div class="reel" id="reel0"><span class="emoji" id="emoji0">🍒</span></div>
+        <div class="reel" id="reel1"><span class="emoji" id="emoji1">💎</span></div>
+        <div class="reel" id="reel2"><span class="emoji" id="emoji2">⭐</span></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="start" id="spinBtn">🎰 O‘YINNI BOSHLASH</button>
+      <div class="status" id="status" aria-live="polite">
+        <div class="status-title">Omad seni kutmoqda!</div>
+        <div class="status-sub">Boshlash tugmasini bos va aylanishni boshlagin.</div>
+      </div>
+      <button class="gift-btn" id="giftBtn">🎁 SOVG‘ANI OLISH UCHUN BOSING</button>
+    </div>
+    <div class="stats">
+      <div class="stat">Urinishlar <b id="attempts">0</b></div>
+      <div class="stat">G‘alabalar <b id="wins">0</b></div>
+      <div class="stat">Keyingi spin <b id="nextSpin">#1</b></div>
+    </div>
+  </section>
 
-<!-- CHAP USTUN -->
-<aside class="left">
-
- <section class="card">
-  <h2>🎲 HA yoki YO‘Q</h2>
-  <p class="muted">Tugmani bos. Javoblar 3 soniya almashib, tasodifiy natijada to‘xtaydi.</p>
-  <div id="randomResult">?</div>
-  <button class="btn" id="randomBtn" onclick="randomTanla()">🎲 RANDOM TANLASH</button>
- </section>
-
- <section class="card">
-  <h2>🔢 Savollar</h2>
-  <div class="progress-info">
-   <span>Javob berildi</span>
-   <strong id="answered">0 / 30</strong>
-  </div>
-  <div class="progress"><div id="progressBar"></div></div>
-  <div class="numbers" id="numbers"></div>
-  <div class="legend">
-   <span><i class="dot green"></i>To‘g‘ri</span>
-   <span><i class="dot red"></i>Noto‘g‘ri</span>
-   <span><i class="dot blue"></i>Tanlangan</span>
-  </div>
- </section>
-
-</aside>
-
-<!-- O‘NG USTUN -->
-<main>
-
- <section class="card" id="quiz">
-  <div class="progress-info">
-   <strong id="questionNumber">1-savol / 30</strong>
-   <span id="questionStatus">Javob tanlanmagan</span>
-  </div>
-  <div class="progress"><div id="questionProgress" style="height:100%;width:3.33%;background:#818cf8"></div></div>
-
-  <h2 id="questionText"></h2>
-  <div id="options"></div>
-
-  <div id="feedback" role="status" aria-live="polite"></div>
-
-  <div class="actions">
-   <button class="btn secondary" id="prevBtn" onclick="move(-1)">← Oldingi</button>
-   <button class="btn" id="nextBtn" onclick="move(1)">Keyingi →</button>
-   <button class="btn green" onclick="finishTest()">🏁 Yakunlash</button>
-  </div>
-
-  <div id="resultSummary"></div>
- </section>
-
- <section class="card">
-  <h2>🗝️ To‘g‘ri javoblar</h2>
-  <p class="muted">Javoblar kalitini uchta slaydda ko‘rish mumkin.</p>
-  <button class="btn green" onclick="toggleKeys()">👁 To‘g‘ri javoblarni ko‘rish</button>
-
-  <div id="answerPanel">
-   <div class="key-slides">
-    <button class="key-slide active" onclick="showKey(0)">1–10</button>
-    <button class="key-slide" onclick="showKey(1)">11–20</button>
-    <button class="key-slide" onclick="showKey(2)">21–30</button>
-   </div>
-   <div id="keyContent"></div>
-   <div class="actions">
-    <button class="btn secondary" id="keyPrev" onclick="showKey(currentKey-1)">← Oldingi</button>
-    <button class="btn" id="keyNext" onclick="showKey(currentKey+1)">Keyingi →</button>
-   </div>
-  </div>
- </section>
-
+  <p class="note">Bu ko‘ngilochar demo o‘yin. Haqiqiy pul tikish yoki pul yutug‘i mavjud emas.</p>
+  <div class="footer">MADE TO SPIN ✦ BUILT FOR FUN</div>
 </main>
+
+<div class="backdrop" id="giftModal" role="dialog" aria-modal="true" aria-labelledby="giftTitle">
+  <div class="modal">
+    <button class="close" id="closeModal" aria-label="Yopish">×</button>
+    <div class="kicker">✦ MAXSUS MUKOFOT ✦</div>
+    <h2 id="giftTitle">SEN YUTDING!</h2>
+    <p>Sovg‘ang ochilmoqda…</p>
+    <div class="gift-frame">
+      <!-- SOVG'A RASMINI SHU YERGA JOYLASHTIRING -->
+      <!-- Rasmni images/sovga.png nomi bilan saqlang yoki src manzilini o'zgartiring. -->
+      <img id="giftImage" src="Skrinshot 2026-10-19 203634.png" alt="Sizning sovg‘angiz">
+      <div id="fallbackGift">🎁</div>
+    </div>
+    <button class="close-bottom" id="closeModalBottom">AJOYIB! YOPISH</button>
+  </div>
 </div>
+<div id="confetti"></div>
 
 <script>
-// HA / YO‘Q RANDOM
-let randomBand=false;
+const EMOJIS = ["🍒","🍋","🍇","🍉","🍓","⭐","💎","🔔","🍀","🪙","🎁","👑"];
+const SPIN_DURATION = 4000;
 
-function randomTanla(){
- if(randomBand)return;
- randomBand=true;
+const spinBtn = document.getElementById("spinBtn");
+const giftBtn = document.getElementById("giftBtn");
+const statusBox = document.getElementById("status");
+const modal = document.getElementById("giftModal");
+const giftImage = document.getElementById("giftImage");
+const fallbackGift = document.getElementById("fallbackGift");
+let attempts = 0, wins = 0, spinning = false, giftOpened = false;
+let timers = [], intervals = [];
 
- const result=document.getElementById("randomResult");
- const button=document.getElementById("randomBtn");
- const start=Date.now();
+function randomEmoji(){
+  return EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+}
+function setStatus(title, subtitle, type=""){
+  statusBox.className = "status" + (type ? " " + type : "");
+  statusBox.replaceChildren();
+  const t = document.createElement("div");
+  t.className = "status-title"; t.textContent = title;
+  const s = document.createElement("div");
+  s.className = "status-sub"; s.textContent = subtitle;
+  statusBox.append(t,s);
+}
+function clearEffects(){
+  for(let i=0;i<3;i++){
+    document.getElementById("reel"+i).classList.remove("winner","loser","spinning");
+  }
+}
+function clearTimers(){
+  intervals.forEach(clearInterval);
+  timers.forEach(clearTimeout);
+  intervals=[];timers=[];
+}
+function confetti(){
+  const layer=document.getElementById("confetti");
+  layer.replaceChildren();
+  const colors=["#ffd700","#ff2d95","#00e5ff","#39ff88","#b794ff","#ffffff"];
+  for(let i=0;i<100;i++){
+    const piece=document.createElement("span");
+    piece.className="confetti-piece";
+    piece.style.left=Math.random()*100+"%";
+    piece.style.background=colors[Math.floor(Math.random()*colors.length)];
+    piece.style.setProperty("--duration",(1.8+Math.random()*2)+"s");
+    piece.style.setProperty("--drift",(Math.random()*240-120)+"px");
+    piece.style.animationDelay=Math.random()*.4+"s";
+    layer.appendChild(piece);
+  }
+  setTimeout(()=>layer.replaceChildren(),4500);
+}
+function startSpin(){
+  if(spinning)return;
+  spinning=true;attempts++;giftOpened=false;
+  document.getElementById("attempts").textContent=attempts;
+  document.getElementById("nextSpin").textContent="#"+(attempts+1);
+  spinBtn.disabled=true;spinBtn.textContent="✨ AYLANMOQDA...";
+  giftBtn.classList.remove("show");
+  modal.classList.remove("open","revealed");
+  clearEffects();clearTimers();
+  setStatus("G‘ildiraklar aylanmoqda!","4 soniya kut — natija hozir chiqadi…");
 
- button.disabled=true;
- button.textContent="⏳ TANLANMOQDA...";
-
- function aylantir(){
-  const elapsed=Date.now()-start;
-  const answer=Math.random()<0.5?"HA":"YO‘Q";
-
-  result.textContent=answer;
-  result.classList.remove("ha","yoq");
-  result.classList.add(answer==="HA"?"ha":"yoq");
-
-  if(elapsed>=3000){
-   const finalAnswer=Math.random()<0.5?"HA":"YO‘Q";
-   result.textContent=finalAnswer;
-   result.classList.remove("ha","yoq");
-   result.classList.add(finalAnswer==="HA"?"ha":"yoq");
-
-   button.disabled=false;
-   button.textContent="🔄 QAYTA TANLASH";
-   randomBand=false;
-   return;
+  // Demo qoidasi: 1-urinish yutqazish, 2-urinish g'alaba, keyin shu tartib.
+  const isWin=attempts%2===0;
+  let result;
+  if(isWin){
+    const same=randomEmoji();
+    result=[same,same,same];
+  }else{
+    const a=randomEmoji();
+    let b=randomEmoji();while(b===a)b=randomEmoji();
+    let c=randomEmoji();while(c===a||c===b)c=randomEmoji();
+    result=[a,b,c];
   }
 
-  const progress=elapsed/3000;
-  setTimeout(aylantir,45+progress*progress*240);
- }
- aylantir();
+  for(let i=0;i<3;i++){
+    const reel=document.getElementById("reel"+i);
+    const emoji=document.getElementById("emoji"+i);
+    reel.classList.add("spinning");
+    const interval=setInterval(()=>emoji.textContent=randomEmoji(),75+i*12);
+    intervals.push(interval);
+    const stopAt=SPIN_DURATION-(2-i)*170;
+    timers.push(setTimeout(()=>{
+      clearInterval(interval);
+      reel.classList.remove("spinning");
+      emoji.textContent=result[i];
+      reel.animate(
+        [{transform:"translateY(-8px) scale(.96)"},{transform:"translateY(0) scale(1)"}],
+        {duration:260,easing:"cubic-bezier(.2,1.4,.4,1)"}
+      );
+    },stopAt));
+  }
+
+  timers.push(setTimeout(()=>{
+    spinning=false;spinBtn.disabled=false;spinBtn.textContent="🔄 QAYTA O‘YNASH";
+    clearEffects();
+    if(isWin){
+      wins++;document.getElementById("wins").textContent=wins;
+      for(let i=0;i<3;i++)document.getElementById("reel"+i).classList.add("winner");
+      setStatus("🎉 TABRIKLAYMIZ, SIZ YUTDINGIZ!","Uchala emoji bir xil! Sovg‘ani ochish vaqti keldi.","win");
+      giftBtn.classList.add("show");confetti();
+    }else{
+      for(let i=0;i<3;i++)document.getElementById("reel"+i).classList.add("loser");
+      setStatus("😢 Afsus, bu safar omad kelmadi!","Yana urinib ko‘r — keyingi urinishda omad sen tomonda.","lose");
+    }
+    document.getElementById("nextSpin").textContent="#"+(attempts+1);
+  },SPIN_DURATION));
 }
-
-// TEST SAVOLLARI
-const questions=[
-["Tilning amaliy ahamiyati nimada?",["Fikr va axborotni boshqalarga yetkazishda","Faqat she’r yozishda","Faqat imtihon topshirishda"],0],
-["Akademik yozuvning asosiy maqsadi nima?",["Fikrni aniq, mantiqiy va dalillar bilan ifodalash","Matnni imkon qadar uzun qilish","Faqat murakkab so‘zlardan foydalanish"],0],
-["Qaysi vaziyatda rasmiy til uslubi ko‘proq kerak bo‘ladi?",["Do‘stga hazil yozganda","Universitetga ariza yozganda","O‘yin paytida suhbatlashganda"],1],
-["Savodli yozishning amaliy foydasi qaysi?",["Xabarni tushunishni qiyinlashtiradi","Faqat yozuvni chiroyli ko‘rsatadi","Fikrni to‘g‘ri va tushunarli yetkazadi"],2],
-["Rasmiy elektron xatda qaysi murojaat ma’qul?",["Hoy, qarang!","Assalomu alaykum, hurmatli ustoz","Nima gap?"],1],
-["Matnda mantiqiy izchillik nimani anglatadi?",["Fikrlarning tartibli va o‘zaro bog‘liq bo‘lishini","Har bir gapni boshqa mavzuga burishni","Bir fikrni ko‘p marta takrorlashni"],0],
-["Dalil akademik matnda nima uchun ishlatiladi?",["Matnni bezash uchun","Fikrni asoslash va ishonchliligini oshirish uchun","Matnni ataylab murakkablashtirish uchun"],1],
-["Qaysi biri yozma muloqotga misol bo‘ladi?",["Bosh irg‘ash","Qo‘l silkitish","Rasmiy ariza yozish"],2],
-["Noaniq jumlaning asosiy muammosi nima?",["O‘quvchi fikrni turlicha tushunishi mumkin","Jumla juda qisqa bo‘lib qoladi","Unda doim yangi so‘zlar bo‘ladi"],0],
-["Akademik matnda manbani ko‘rsatish nima uchun muhim?",["Matnni uzaytirish uchun","Foydalanilgan axborot manbasini tan olish uchun","Muallif fikrini yashirish uchun"],1],
-["Qaysi gap rasmiy uslubga mos?",["Shuni tezroq qilib tashlang","Iltimos, hujjatni belgilangan muddatda taqdim eting","Hujjatni tashavoring"],1],
-["Til madaniyati nimalarni o‘z ichiga oladi?",["Faqat baland ovozda gapirishni","Faqat shevaga xos so‘zlarni ishlatishni","Til me’yorlariga rioya qilish va vaziyatga mos ifodalanishni"],2],
-["Tahrirlashning asosiy vazifasi nima?",["Matndagi xato va noaniqliklarni aniqlab, tuzatish","Matnni albatta ikki baravar uzaytirish","Barcha tinish belgilarini olib tashlash"],0],
-["Qaysi biri akademik yozuvga xos?",["Asossiz da’volar","Dalil va mantiqqa tayangan bayon","Faqat hissiyotga tayanish"],1],
-["Tinish belgilarini to‘g‘ri qo‘llash nimaga yordam beradi?",["Matnni tushunishni osonlashtiradi","So‘zlarning ma’nosini doim o‘zgartiradi","Matnni keraksiz qiladi"],0],
-["Tilning kasbiy hayotdagi ahamiyati qaysi javobda to‘g‘ri berilgan?",["Kasbiy muloqotga ta’sir qilmaydi","Faqat rahbarlarga kerak","Hujjat tuzish, muzokara va fikr almashishga yordam beradi"],2],
-["Xulosa qismi qanday vazifani bajaradi?",["Asosiy fikrlarni umumlashtiradi","Yangi, mavzuga aloqasiz masalani boshlaydi","Faqat matn hajmini oshiradi"],0],
-["Qaysi jumla aniqroq yozilgan?",["U narsa o‘sha joyda bo‘ldi","Talabalar topshiriqni dushanba kuni topshirdilar","Keyin u buni shunaqa qildi"],1],
-["Plagiat nima?",["O‘z fikrini yozish","Matnni imlo jihatdan tekshirish","Boshqaning ishini yoki fikrini manbasiz o‘ziniki sifatida ko‘rsatish"],2],
-["Reja tuzish yozishda qanday yordam beradi?",["Fikrlarni tartibga solib, matn tuzilishini belgilaydi","Yozishni butunlay keraksiz qiladi","Faqat sarlavha tanlashga xizmat qiladi"],0],
-["Qaysi biri og‘zaki muloqotga misol?",["Hisobot yozish","Yuzma-yuz suhbatlashish","Ariza topshirish"],1],
-["Akademik yozuvda hissiy va norasmiy iboralarni cheklash sababi nima?",["Matnni xolis va aniq saqlash uchun","Matnni tushunarsiz qilish uchun","Muallif fikrini yashirish uchun"],0],
-["So‘z tanlashda nimaga e’tibor berish kerak?",["Faqat so‘zning uzunligiga","Ma’no, auditoriya va vaziyatga mosligiga","Imkon qadar kam uchraydigan so‘zlarga"],1],
-["Qaysi holat samarali muloqotga yordam beradi?",["Suhbatdoshni tinglamaslik","Noaniq va chalkash gapirish","Fikrni aniq bayon etish va tinglovchini hisobga olish"],2],
-["Matnning kirish qismida odatda nima beriladi?",["Mavzu va uning dolzarbligi haqida ma’lumot","Faqat foydalanilgan manbalar ro‘yxati","Faqat yakuniy xulosa"],0],
-["Rasmiy hujjatda imlo xatolari ko‘p bo‘lsa, qanday ta’sir qilishi mumkin?",["Hujjatni har doim kuchliroq qiladi","Matnning ishonchliligi va tushunarliligini pasaytirishi mumkin","Hech qanday ta’siri bo‘lmaydi"],1],
-["Til va tafakkur o‘rtasidagi bog‘liqlik qaysi javobda ifodalangan?",["Til fikrlarni ifodalash va tartibga solishga yordam beradi","Til faqat tovushlardan iborat","Tafakkur va til hech qachon bog‘liq emas"],0],
-["Qaysi usul taqdimotda fikrni tushunarli qiladi?",["Barcha ma’lumotni bir slaydga joylash","Juda tez va tanaffussiz gapirish","Asosiy fikrlarni tartib bilan, sodda va aniq tushuntirish"],2],
-["Akademik matnda xolislik nimani anglatadi?",["Shaxsiy yoqtirishni dalil o‘rnida ishlatish","Fikrni dalillar asosida, biryoqlama bo‘lmagan tarzda bayon qilish","Boshqa qarashlarni ataylab yashirish"],1],
-["Tilning kundalik hayotdagi amaliy ahamiyatiga qaysi misol mos?",["Yo‘l so‘rash, xabar yozish va xizmatlardan foydalanishda fikrni tushuntirish","Faqat ilmiy maqola yozish","Faqat lug‘at yodlash"],0]
-];
-
-const letters=["A","B","C"];
-let current=0;
-let answers=Array(30).fill(null);
-let currentKey=0;
-let finished=false;
-
-const numbers=document.getElementById("numbers");
-
-questions.forEach((q,i)=>{
- const b=document.createElement("button");
- b.className="num";
- b.textContent=i+1;
- b.onclick=()=>renderQuestion(i);
- numbers.appendChild(b);
+function openGift(){
+  if(spinning||attempts===0||attempts%2!==0||giftOpened)return;
+  giftOpened=true;
+  modal.classList.remove("revealed");
+  modal.classList.add("open");
+  if(giftImage.complete&&giftImage.naturalWidth>0){
+    giftImage.style.display="block";fallbackGift.style.display="none";
+  }else{
+    giftImage.style.display="none";fallbackGift.style.display="block";
+  }
+  setTimeout(()=>modal.classList.add("revealed"),180);
+}
+function closeGift(){modal.classList.remove("open","revealed")}
+giftImage.addEventListener("error",()=>{
+  giftImage.style.display="none";fallbackGift.style.display="block";
 });
-
-function renderQuestion(i){
- current=i;
- const q=questions[i];
-
- document.getElementById("questionNumber").textContent=(i+1)+"-savol / 30";
- document.getElementById("questionText").textContent=(i+1)+". "+q[0];
- document.getElementById("questionStatus").textContent=
-  answers[i]===null?"Javob tanlanmagan":"Javob belgilangan";
- document.getElementById("feedback").className="";
- document.getElementById("feedback").innerHTML="";
- document.getElementById("resultSummary").textContent="";
- document.getElementById("questionProgress").style.width=((i+1)/30*100)+"%";
-
- const options=document.getElementById("options");
- options.innerHTML="";
-
- q[1].forEach((text,j)=>{
-  const b=document.createElement("button");
-  b.className="option";
-  const letter=document.createElement("span");
-  letter.className="letter";
-  letter.textContent=letters[j];
-  const label=document.createElement("span");
-  label.textContent=text;
-  b.append(letter,label);
-
-  if(answers[i]!==null){
-   b.disabled=true;
-   if(j===q[2])b.classList.add("right");
-   if(j===answers[i]&&j!==q[2])b.classList.add("incorrect");
-   if(j===answers[i])b.classList.add("selected");
+giftImage.addEventListener("load",()=>{
+  if(giftImage.naturalWidth>0){
+    giftImage.style.display="block";fallbackGift.style.display="none";
   }
-
-  b.onclick=()=>chooseAnswer(j);
-  options.appendChild(b);
- });
-
- if(answers[i]!==null)showFeedback(i);
-
- document.getElementById("prevBtn").disabled=i===0;
- document.getElementById("nextBtn").disabled=i===29;
- updateProgress();
-}
-
-function chooseAnswer(j){
- if(answers[current]!==null)return;
- answers[current]=j;
- renderQuestion(current);
-}
-
-function showFeedback(i){
- const box=document.getElementById("feedback");
- const correct=questions[i][2];
- const chosen=answers[i];
- box.className="show "+(chosen===correct?"good":"bad");
-
- if(chosen===correct){
-  box.innerHTML="<strong>✅ To‘g‘ri javob!</strong>"+
-   "Sen "+letters[chosen]+" variantni tanlading. Ajoyib!";
- }else{
-  box.innerHTML="<strong>❌ Noto‘g‘ri javob</strong>"+
-   "Sen tanlagan javob: "+letters[chosen]+
-   "<br>To‘g‘ri javob: <b>"+letters[correct]+" — "+
-   questions[i][1][correct]+"</b>";
- }
-
- document.getElementById("questionStatus").textContent=
-  chosen===correct?"✅ To‘g‘ri":"❌ Noto‘g‘ri";
-}
-
-function updateProgress(){
- const count=answers.filter(a=>a!==null).length;
- document.getElementById("answered").textContent=count+" / 30";
- document.getElementById("progressBar").style.width=(count/30*100)+"%";
-
- [...numbers.children].forEach((b,i)=>{
-  b.classList.remove("active","correct","wrong");
-  if(i===current)b.classList.add("active");
-  if(answers[i]!==null){
-   b.classList.add(answers[i]===questions[i][2]?"correct":"wrong");
-  }
- });
-}
-
-function move(step){
- const next=current+step;
- if(next>=0&&next<30)renderQuestion(next);
-}
-
-function finishTest(){
- const answered=answers.filter(a=>a!==null).length;
- const score=answers.reduce((sum,a,i)=>
-  sum+(a===questions[i][2]?1:0),0);
-
- finished=true;
- const el=document.getElementById("resultSummary");
- el.textContent="🏆 Natija: "+score+" / 30 ta to‘g‘ri. "+
-  "Javob berilgan: "+answered+" / 30.";
- el.style.color="#a5b4fc";
-}
-
-function toggleKeys(){
- const panel=document.getElementById("answerPanel");
- panel.style.display=panel.style.display==="block"?"none":"block";
- if(panel.style.display==="block")showKey(currentKey);
-}
-
-function showKey(slide){
- if(slide<0||slide>2)return;
- currentKey=slide;
-
- document.querySelectorAll(".key-slide").forEach((b,i)=>
-  b.classList.toggle("active",i===slide));
-
- const content=document.getElementById("keyContent");
- content.innerHTML="";
- const grid=document.createElement("div");
- grid.className="key-list";
-
- for(let i=slide*10;i<slide*10+10;i++){
-  const item=document.createElement("div");
-  item.className="key-item";
-  const n=document.createElement("div");
-  n.textContent=(i+1)+"-savol";
-  const answer=document.createElement("strong");
-  answer.textContent=letters[questions[i][2]];
-  item.append(n,answer);
-  grid.appendChild(item);
- }
-
- content.appendChild(grid);
- document.getElementById("keyPrev").disabled=slide===0;
- document.getElementById("keyNext").disabled=slide===2;
-}
-
-renderQuestion(0);
+});
+spinBtn.addEventListener("click",startSpin);
+giftBtn.addEventListener("click",openGift);
+document.getElementById("closeModal").addEventListener("click",closeGift);
+document.getElementById("closeModalBottom").addEventListener("click",closeGift);
+modal.addEventListener("click",e=>{if(e.target===modal)closeGift()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeGift()});
 </script>
 </body>
 </html>
